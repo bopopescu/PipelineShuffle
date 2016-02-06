@@ -7,9 +7,9 @@ fi
 
 sbin/stop-all.sh
 build/mvn -Dhadoop.version=1.0.4 -Phadoop-1 -DskipTests clean package
-sbin/start-all.sh
 
 cp ../spark-original/conf/* conf
+sed -i -e '1ispark.scheduler.pipe true\' conf/spark-defaults.conf
 
-[[ grep spark.scheduler.pipe conf/spark-defaults.conf &> /dev/null ]] || \
-    sed -i -e '1ispark.scheduler.pipe true\' conf/spark-defaults.conf
+/root/spark-ec2/copy-dir --delete /root/spark
+sbin/start-all.sh

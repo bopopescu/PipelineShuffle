@@ -339,7 +339,7 @@ private[spark] class BlockManager(
     val blockArray = new Array[(BlockId, Long)](1)
     blockArray(0) = (ShuffleBlockId(shuffleId, mapId, reduceId), size)
     if (location.executorId != blockManagerId.executorId) {
-      logInfo(s"frankfzw: Send pending request for shuffle: ${shuffleId}:${mapId}:${reduceId} at ${location}. Size ${size}")
+      logInfo(s"frankfzw: Send pending request for shuffle: ${shuffleId}:${mapId}:${reduceId} at ${location}. Size ${size} Time ${java.lang.System.currentTimeMillis()}")
       val sizeMap = blockArray.map { case (block, size) => (block.toString, size) }.toMap
       val blockIds = blockArray.map(_._1.toString)
       if (size == BLOCK_EMPTY) {
@@ -352,7 +352,7 @@ private[spark] class BlockManager(
               buf.retain()
               shuffleFetchResultQueue(shuffleId)(reduceId).put(new SuccessFetchResult(BlockId(blockId), location, sizeMap(blockId), buf))
               //putCacheBlock(shuffleId, mapId, reduceId, buf, size, false)
-              logInfo("frankfzw: Got remote block " + blockId)
+              logInfo("frankfzw: Got remote block " + blockId + s" Time ${java.lang.System.currentTimeMillis()}")
             }
 
             override def onBlockFetchFailure(blockId: String, e: Throwable): Unit = {
