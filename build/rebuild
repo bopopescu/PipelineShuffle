@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [[ ! -d sbin ]]; then
+    echo cannot find sbin, exit
+    exit 1
+fi
+
+sbin/stop-all.sh
+build/mvn -Dhadoop.version=1.0.4 -Phadoop-1 -DskipTests clean package
+sbin/start-all.sh
+
+cp ../spark-original/conf/* conf
+
+[[ grep spark.scheduler.pipe conf/spark-defaults.conf &> /dev/null ]] || \
+    sed -i -e '1ispark.scheduler.pipe true\' conf/spark-defaults.conf
