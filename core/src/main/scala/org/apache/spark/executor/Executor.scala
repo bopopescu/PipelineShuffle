@@ -242,11 +242,11 @@ private[spark] class Executor(
 
         // added by frankfzw
         // pipe shuffle ended here
-        // logInfo(s"frankfzw: task ${taskId}, ${task.getClass}, ${task.getClass.getName}. target: ${ShuffleMapTask.getClass.getName}. answer ${task.getClass.getName == ShuffleMapTask.getClass.getName}")
+        logInfo(s"frankfzw: task ${taskId}, ${task.getClass}, ${task.getClass.getName}. target: ${ShuffleMapTask.getClass.getName}. answer ${task.getClass.getName == ShuffleMapTask.getClass.getName}")
         if (task.getClass.getName == ShuffleMapTask.getName) {
           val shuffleId = task.asInstanceOf[ShuffleMapTask].getShuffleId()
           if (shuffleId != -1) {
-            // logInfo(s"frankfzw: task: ${task}; shuffleId: ${shuffleId}")
+            logInfo(s"frankfzw: task: ${task}; shuffleId: ${shuffleId}")
             env.blockManager.remotePipeEnd(shuffleId, task.partitionId, value.asInstanceOf[MapStatus])
           }
         }

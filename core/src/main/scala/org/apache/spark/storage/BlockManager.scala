@@ -352,7 +352,7 @@ private[spark] class BlockManager(
               buf.retain()
               shuffleFetchResultQueue(shuffleId)(reduceId).put(new SuccessFetchResult(BlockId(blockId), location, sizeMap(blockId), buf))
               //putCacheBlock(shuffleId, mapId, reduceId, buf, size, false)
-              logTrace("frankfzw: Got remote block " + blockId)
+              logInfo("frankfzw: Got remote block " + blockId)
             }
 
             override def onBlockFetchFailure(blockId: String, e: Throwable): Unit = {

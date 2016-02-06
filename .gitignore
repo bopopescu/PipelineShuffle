@@ -27,6 +27,7 @@ conf/*.sh
 conf/*.cmd
 conf/*.properties
 conf/*.conf
+conf/*.template
 conf/*.xml
 conf/slaves
 docs/_site
@@ -67,6 +68,7 @@ R-unit-tests.log
 R/unit-tests.out
 python/lib/pyspark.zip
 lint-r-report.log
+/*.log
 
 # For Hive
 metastore_db/
