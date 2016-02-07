@@ -309,15 +309,13 @@ private[spark] class BlockManager(
         val sizeArray = new Array[Long](reduceStatuses.length)
         val executors = new mutable.HashSet[String]
         for (rs <- reduceStatuses) {
+          executors += rs.executorId
           sizeArray(rs.partition) = mapStatus.getSizeForBlock(rs.partition)
-
-          val e = rs.executorId
+        }
+        for (e <- executors) {
           if (e == blockManagerId.executorId) {
             pipeEnd(shuffleId, mapPartition, blockManagerId, sizeArray)
           } else {
-            logInfo("pipeshuffle: Map-end signal: " +
-              s" ${shuffleId}:${mapPartition}:${rs.partition}:${blockManagerId.executorId}:${e} " +
-              s" Time ${java.lang.System.currentTimeMillis()}")
             val rpcRef = getRemoteBlockManager(e)
             val ret = rpcRef.askWithRetry[Boolean](PipeEnd(shuffleId, mapPartition, blockManagerId, sizeArray))
             if (!ret)
