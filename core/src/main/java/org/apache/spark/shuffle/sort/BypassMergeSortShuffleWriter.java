@@ -76,7 +76,7 @@ final class BypassMergeSortShuffleWriter<K, V> implements SortShuffleFileWriter<
   private final boolean transferToEnabled;
   private final int numPartitions;
 
-  // added by frankfzw
+  // added by pipeshuffle
   private HashMap<Integer, RpcEndpointRef> reduceIdToBlockManager = null;
 
   @Override
@@ -111,10 +111,10 @@ final class BypassMergeSortShuffleWriter<K, V> implements SortShuffleFileWriter<
 
   @Override
   public void insertAllRemote(Iterator<Product2<K, V>> records, Integer shuffleId) throws IOException {
-    // logger.info("frankfzw: I'm insertAll with records " + records.size());
+    // logger.info("pipeshuffle: I'm insertAll with records " + records.size());
     assert (partitionWriters == null);
     if (!records.hasNext()) {
-      // logger.info("frankfzw: The records are empty");
+      // logger.info("pipeshuffle: The records are empty");
       return;
     }
     final SerializerInstance serInstance = serializer.newInstance();
@@ -134,24 +134,24 @@ final class BypassMergeSortShuffleWriter<K, V> implements SortShuffleFileWriter<
     writeMetrics.incShuffleWriteTime(System.nanoTime() - openStartTime);
 
     // for (Map.Entry<Integer, BlockManagerInfo> entry : reduceIdToBlockManager.entrySet()) {
-    //   logger.info("frankfzw: Reduce status rid: " + entry.getKey() + "value: " + entry.getValue().slaveEndpoint().address());
+    //   logger.info("pipeshuffle: Reduce status rid: " + entry.getKey() + "value: " + entry.getValue().slaveEndpoint().address());
     // }
     if (reduceIdToBlockManager != null && shuffleId != -1) {
-      // added by frankfzw, perfrom data pushing
+      // added by pipeshuffle, perfrom data pushing
       while (records.hasNext()) {
         final Product2<K, V> record = records.next();
         final K key = record._1();
         partitionWriters[partitioner.getPartition(key)].write(key, record._2());
 
         int pid = partitioner.getPartition(key);
-        // frankfzw: It may cause an null exception
+        // pipeshuffle: It may cause an null exception
         if (reduceIdToBlockManager.containsKey(pid))
           BlockManager.writeRemote(reduceIdToBlockManager.get(pid), shuffleId, pid, key, record._2());
         else
-          logger.info("frankfzw: No such reducer id " + pid);
+          logger.info("pipeshuffle: No such reducer id " + pid);
       }
     } else {
-      logger.error("frankfzw: Unable to insert remote");
+      logger.error("pipeshuffle: Unable to insert remote");
     }
 
 
@@ -162,10 +162,10 @@ final class BypassMergeSortShuffleWriter<K, V> implements SortShuffleFileWriter<
 
   @Override
   public void insertAll(Iterator<Product2<K, V>> records) throws IOException {
-    // logger.info("frankfzw: I'm insertAll with records " + records.size());
+    // logger.info("pipeshuffle: I'm insertAll with records " + records.size());
     assert (partitionWriters == null);
     if (!records.hasNext()) {
-      // logger.info("frankfzw: The records are empty");
+      // logger.info("pipeshuffle: The records are empty");
       return;
     }
     final SerializerInstance serInstance = serializer.newInstance();
@@ -185,7 +185,7 @@ final class BypassMergeSortShuffleWriter<K, V> implements SortShuffleFileWriter<
     writeMetrics.incShuffleWriteTime(System.nanoTime() - openStartTime);
 
     // for (Map.Entry<Integer, BlockManagerInfo> entry : reduceIdToBlockManager.entrySet()) {
-    //   logger.info("frankfzw: Reduce status rid: " + entry.getKey() + "value: " + entry.getValue().slaveEndpoint().address());
+    //   logger.info("pipeshuffle: Reduce status rid: " + entry.getKey() + "value: " + entry.getValue().slaveEndpoint().address());
     // }
 
     while (records.hasNext()) {

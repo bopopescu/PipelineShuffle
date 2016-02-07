@@ -11,9 +11,9 @@ object TestApp {
     // val b = data.filter(x => x < 50)
     // val c = b.groupBy(x => x % 4)
     // c.collect
-    // val file = sc.textFile("file:///home/frankfzw/wikipedia/wiki.txt")
+    // val file = sc.textFile("file:///home/pipeshuffle/wikipedia/wiki.txt")
     // val counts = file.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey(_ + _)
-    // counts.saveAsTextFile("file:///home/frankfzw/wikipedia/res")
+    // counts.saveAsTextFile("file:///home/pipeshuffle/wikipedia/res")
 
     val data1 = Array[(Int, Char)](
     (1, 'a'), (2, 'b'),

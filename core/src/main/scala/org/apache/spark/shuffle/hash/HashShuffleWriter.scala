@@ -71,7 +71,7 @@ private[spark] class HashShuffleWriter[K, V](
   }
 
   /**
-   * added by frankfzw
+   * added by pipeshuffle
    * It's kind of ugly
    * Write the key value pair to the memory of remote BlockManager
    * @param records
@@ -95,12 +95,12 @@ private[spark] class HashShuffleWriter[K, V](
       val res = reduceIdToBlockManager.get(bucketId) match {
         case Some(info) => BlockManager.writeRemote(info, dep.shuffleId, bucketId, elem._1, elem._2)
         case _ =>
-          logInfo(s"frankfzw: No such reducer id ${bucketId}")
+          logInfo(s"pipeshuffle: No such reducer id ${bucketId}")
       }
 
       if (res == false) {
-        logError(s"frankfzw: Remote write failed with ${bucketId}")
-        throw new SparkException(s"frankfzw: Remote write failed with ${bucketId}")
+        logError(s"pipeshuffle: Remote write failed with ${bucketId}")
+        throw new SparkException(s"pipeshuffle: Remote write failed with ${bucketId}")
       }
     }
   }
@@ -118,7 +118,7 @@ private[spark] class HashShuffleWriter[K, V](
           Some(commitWritesAndBuildStatus())
         } catch {
           case e: Exception =>
-            logError(s"frankfzw: Something error happens")
+            logError(s"pipeshuffle: Something error happens")
             success = false
             revertWrites()
             throw e

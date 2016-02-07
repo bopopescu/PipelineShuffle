@@ -172,7 +172,7 @@ private[spark] class TaskSchedulerImpl(
       if (conflictingTaskSet) {
         throw new IllegalStateException(s"more than one active taskSet for stage $stage:" +
           s" ${stageTaskSets.toSeq.map{_._2.taskSet.id}.mkString(",")}")
-        //logInfo("frankfzw: " + taskSet.id + " should waiting for parent")
+        //logInfo("pipeshuffle: " + taskSet.id + " should waiting for parent")
       }
       schedulableBuilder.addTaskSetManager(manager, manager.taskSet.properties)
 
@@ -191,7 +191,7 @@ private[spark] class TaskSchedulerImpl(
       }
       hasReceivedTask = true
     }
-    // logInfo(s"frankfzw: Submit Tasks with ${taskSet.id} with ${tasks.length} of stage ${taskSet.stageId}.")
+    // logInfo(s"pipeshuffle: Submit Tasks with ${taskSet.id} with ${tasks.length} of stage ${taskSet.stageId}.")
     backend.reviveOffers()
   }
 
@@ -304,7 +304,7 @@ private[spark] class TaskSchedulerImpl(
     for (taskSet <- sortedTaskSets) {
       logDebug("parentName: %s, name: %s, runningTasks: %s".format(
         taskSet.parent.name, taskSet.name, taskSet.runningTasks))
-      // logInfo("frankfzw: parentName: %s, name: %s, runningTasks: %s".format(
+      // logInfo("pipeshuffle: parentName: %s, name: %s, runningTasks: %s".format(
       //   taskSet.parent.name, taskSet.name, taskSet.runningTasks))
       if (newExecAvail) {
         taskSet.executorAdded()

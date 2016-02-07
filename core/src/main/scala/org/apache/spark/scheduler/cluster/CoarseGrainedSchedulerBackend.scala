@@ -179,7 +179,7 @@ class CoarseGrainedSchedulerBackend(scheduler: TaskSchedulerImpl, val rpcEnv: Rp
     def getOffers(): HashSet[String] = {
       val ret = new HashSet[String]
       val activeExecutors = executorDataMap.filterKeys(!executorsPendingToRemove.contains(_))
-      // activeExecutors.foreach(x => logInfo(s"frankfzw: Active executors ${x._2.executorHost}"))
+      // activeExecutors.foreach(x => logInfo(s"pipeshuffle: Active executors ${x._2.executorHost}"))
       activeExecutors.keySet.foreach(x => ret += x)
       ret
     }
@@ -189,7 +189,7 @@ class CoarseGrainedSchedulerBackend(scheduler: TaskSchedulerImpl, val rpcEnv: Rp
     private def makeOffers() {
       // Filter out executors under killing
       val activeExecutors = executorDataMap.filterKeys(!executorsPendingToRemove.contains(_))
-      // activeExecutors.foreach(x => logInfo(s"frankfzw: Active executors ${x._2.executorHost}"))
+      // activeExecutors.foreach(x => logInfo(s"pipeshuffle: Active executors ${x._2.executorHost}"))
       val workOffers = activeExecutors.map { case (id, executorData) =>
         new WorkerOffer(id, executorData.executorHost, executorData.freeCores)
       }.toSeq
@@ -339,7 +339,7 @@ class CoarseGrainedSchedulerBackend(scheduler: TaskSchedulerImpl, val rpcEnv: Rp
       logInfo("SchedulerBackend is ready for scheduling beginning after " +
         s"reached minRegisteredResourcesRatio: $minRegisteredRatio; size: ${executorDataMap.keySet.size}")
       for (e <- executorDataMap) {
-        logInfo(s"frankfzw: The executor data of ${e._1} is ${e._2}")
+        logInfo(s"pipeshuffle: The executor data of ${e._1} is ${e._2}")
       }
       return true
     }

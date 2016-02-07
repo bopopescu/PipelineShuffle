@@ -36,7 +36,7 @@ private[spark] abstract class ShuffleWriter[K, V] {
   def stop(success: Boolean): Option[MapStatus]
 
   /**
-   * added by frankfzw
+   * added by pipeshuffle
    * write the record to the remote BlockManager
    * @param records
    */

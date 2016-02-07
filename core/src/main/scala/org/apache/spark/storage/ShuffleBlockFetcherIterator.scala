@@ -115,7 +115,7 @@ final class ShuffleBlockFetcherIterator(
   @volatile private[this] var isZombie = false
 
 
-  // added by frankfzw to read from cache
+  // added by pipeshuffle to read from cache
   private[this] val _isCached = isCached
 
   private[this] var _requestResults: Iterator[LinkedBlockingQueue[FetchResult]] = null
@@ -140,7 +140,7 @@ final class ShuffleBlockFetcherIterator(
   }
 
   /**
-   * added by frankfzw
+   * added by pipeshuffle
    * @return true if the map isn't ready
    */
   def empty(): Boolean = {
@@ -213,7 +213,7 @@ final class ShuffleBlockFetcherIterator(
     // Tracks total number of blocks (including zero sized blocks)
     var totalBlocks = 0
     for ((address, blockInfos) <- blocksByAddress) {
-      // logInfo(s"frankfzw: address: ${address}, info: ${blockInfos}")
+      // logInfo(s"pipeshuffle: address: ${address}, info: ${blockInfos}")
       totalBlocks += blockInfos.size
       if (address.executorId == blockManager.blockManagerId.executorId) {
         // Filter out zero-sized blocks
@@ -282,7 +282,7 @@ final class ShuffleBlockFetcherIterator(
     context.addTaskCompletionListener(_ => cleanup())
 
 
-    // added by frankfzw
+    // added by pipeshuffle
     if (!_isCached) {
       // Split local and remote blocks.
       val remoteRequests = splitLocalRemoteBlocks()
@@ -322,7 +322,7 @@ final class ShuffleBlockFetcherIterator(
     if (isCached) {
       if (currentWaitingNumber == 0) {
         if (!_requestBlockNumber.hasNext)
-          throw new SparkException("frankfzw: The fetch is over")
+          throw new SparkException("pipeshuffle: The fetch is over")
         currentWaitingNumber = _requestBlockNumber.next
         currentWaitingQueue = _requestResults.next
       }
@@ -391,7 +391,7 @@ final class ShuffleBlockFetcherIterator(
           }
 
         case _ =>
-          throw new SparkException("frankfzw: Unknown fetch result")
+          throw new SparkException("pipeshuffle: Unknown fetch result")
       }
     }
 
@@ -503,7 +503,7 @@ object ShuffleBlockFetcherIterator {
     extends FetchResult
 
   /**
-   * added by frankfzw
+   * added by pipeshuffle
    * Result of a empty block fetch
    * @param blockId block id
    * @param address BlockManager that the block was attempted to be fetched from
@@ -514,7 +514,7 @@ object ShuffleBlockFetcherIterator {
     extends FetchResult
 
   /**
-   * added by frankfzw
+   * added by pipeshuffle
    * Result of a fetch from a local block
    * @param blockId block id
    * @param address BlockManager that the block was attempted to be fetched from

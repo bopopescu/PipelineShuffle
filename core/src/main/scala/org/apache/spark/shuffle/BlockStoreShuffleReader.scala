@@ -49,7 +49,7 @@ private[spark] class BlockStoreShuffleReader[K, C](
 
   /** Read the combined key-values for this reduce task */
   override def read(): Iterator[Product2[K, C]] = {
-    // added by frankfzw: check if the data is pushed by the mapper at first
+    // added by pipeshuffle: check if the data is pushed by the mapper at first
     var recordIter: Iterator[(Any, Any)] = null
     val ser = Serializer.getSerializer(dep.serializer)
     val serializerInstance = ser.newInstance()
@@ -61,7 +61,7 @@ private[spark] class BlockStoreShuffleReader[K, C](
       // val temp = new mutable.HashMap[BlockManagerId, ArrayBuffer[(BlockId, Long)]]
       val totalMapPartition = blockManager.getMapPartitionNumber(handle.shuffleId)
       val numbers = Array.fill[Int](endPartition - startPartition)(totalMapPartition)
-      logInfo(s"frankfzw: Reading from local cache, shuffleId is ${handle.shuffleId}, startPartition: ${startPartition}, endPartition: ${endPartition}, total map partition: ${totalMapPartition}")
+      logInfo(s"pipeshuffle: Reading from local cache, shuffleId is ${handle.shuffleId}, startPartition: ${startPartition}, endPartition: ${endPartition}, total map partition: ${totalMapPartition}")
       val requests = blockManager.getPendngFetchRequest(handle.shuffleId, startPartition, endPartition)
       blockFetcherItr = new ShuffleBlockFetcherIterator(
       context,
@@ -80,7 +80,7 @@ private[spark] class BlockStoreShuffleReader[K, C](
       // Note: we use getSizeAsMb when no suffix is provided for backwards compatibility
       SparkEnv.get.conf.getSizeAsMb("spark.reducer.maxSizeInFlight", "48m") * 1024 * 1024)
 
-      // frankfzw: check if it get the real data from MapOutputTracker
+      // pipeshuffle: check if it get the real data from MapOutputTracker
       if (blockFetcherItr.empty())
         return null
     }
@@ -111,15 +111,15 @@ private[spark] class BlockStoreShuffleReader[K, C](
     val aggregatedIter: Iterator[Product2[K, C]] = if (dep.aggregator.isDefined) {
       if (dep.mapSideCombine && !fromCache) {
         // We are reading values that are already combined
-        // added by frankfzw: make sure these key-value pairs are not read from local cache
-        logInfo("frankfzw: This shuffle has combined by mapper and it doesn't readed from cache")
+        // added by pipeshuffle: make sure these key-value pairs are not read from local cache
+        logInfo("pipeshuffle: This shuffle has combined by mapper and it doesn't readed from cache")
         val combinedKeyValuesIterator = interruptibleIter.asInstanceOf[Iterator[(K, C)]]
         dep.aggregator.get.combineCombinersByKey(combinedKeyValuesIterator, context)
       } else {
         // We don't know the value type, but also don't care -- the dependency *should*
         // have made sure its compatible w/ this aggregator, which will convert the value
         // type to the combined type C
-        logInfo("frankfzw: This shuffle hasn't be combined or it's from cache")
+        logInfo("pipeshuffle: This shuffle hasn't be combined or it's from cache")
         val keyValuesIterator = interruptibleIter.asInstanceOf[Iterator[(K, Nothing)]]
         dep.aggregator.get.combineValuesByKey(keyValuesIterator, context)
       }
@@ -130,12 +130,12 @@ private[spark] class BlockStoreShuffleReader[K, C](
 
     // while (aggregatedIter.hasNext) {
     //   val kv = aggregatedIter.next()
-    //   logInfo(s"frankfzw: The kv is ${kv._1} -> ${kv._2}")
+    //   logInfo(s"pipeshuffle: The kv is ${kv._1} -> ${kv._2}")
     // }
     // Sort the output if there is a sort ordering defined.
     dep.keyOrdering match {
       case Some(keyOrd: Ordering[K]) =>
-        logInfo("frankfzw: It has external order")
+        logInfo("pipeshuffle: It has external order")
         // Create an ExternalSorter to sort the data. Note that if spark.shuffle.spill is disabled,
         // the ExternalSorter won't spill to disk.
         val sorter = new ExternalSorter[K, C, C](ordering = Some(keyOrd), serializer = Some(ser))
@@ -147,10 +147,10 @@ private[spark] class BlockStoreShuffleReader[K, C](
           InternalAccumulator.PEAK_EXECUTION_MEMORY).add(sorter.peakMemoryUsedBytes)
         sorter.iterator
       case None =>
-        logInfo("frankfzw: It doesn't have external order")
+        logInfo("pipeshuffle: It doesn't have external order")
         // while (recordIter.hasNext) {
         //   val kv = recordIter.next()
-        //   logInfo(s"frankfzw: The kv is ${kv._1} -> ${kv._2}")
+        //   logInfo(s"pipeshuffle: The kv is ${kv._1} -> ${kv._2}")
         // }
         aggregatedIter
     }

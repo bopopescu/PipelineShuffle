@@ -25,7 +25,7 @@ import java.util.Properties
  */
 
 // add a pipeFlag to calculate the locality
-// added by frankfzw
+// added by pipeshuffle
 private[spark] class TaskSet(
     val tasks: Array[Task[_]],
     val stageId: Int,

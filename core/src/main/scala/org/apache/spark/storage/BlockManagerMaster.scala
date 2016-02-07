@@ -46,7 +46,7 @@ class BlockManagerMaster(
   }
 
   /**
-   * added by frankfzw
+   * added by pipeshuffle
    * Fetch the remote BlockManager by executor id
    * @param executorId
    * @return null if the remote BlockManager is not ready
@@ -77,15 +77,15 @@ class BlockManagerMaster(
     for (e <- executors) {
       val rpcRef = getRemoteBlockManager(e)
       if (rpcRef == null) {
-        logError(s"frankfzw: The remote ${e} is not ready")
-        throw new SparkException(s"frankfzw: The remote ${e} is not ready")
+        logError(s"pipeshuffle: The remote ${e} is not ready")
+        throw new SparkException(s"pipeshuffle: The remote ${e} is not ready")
       }
       rpcRef.askWithRetry[Boolean](RegisterShufflePipe(shuffleId))
     }
   }
 
   /**
-   * added by frankfzw
+   * added by pipeshuffle
    * Fetch the remote BlockManagerId by executor id
    * @param executorId
    * @return
@@ -96,7 +96,7 @@ class BlockManagerMaster(
 
   /**
    * Get the all active BlockManagerId for random allocation
-   * added by frankfzw
+   * added by pipeshuffle
    * @return the list of BlockManagerId
    */
   def getBlockManagerList(): Seq[BlockManagerId] = {

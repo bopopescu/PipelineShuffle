@@ -57,7 +57,7 @@ public interface SortShuffleFileWriter<K, V> {
   void stop() throws IOException;
 
   /**
-   * added by frankfzw
+   * added by pipeshuffle
    * Called by SortShuffleWriter to add reduceIdToBlockManager
    */
   void setReduceStatus(HashMap<Integer, RpcEndpointRef> reduceIdToBlockManager);

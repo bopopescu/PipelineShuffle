@@ -113,7 +113,7 @@ private[spark] object BlockManagerMessages {
 
   case object GetBlockManagerList extends ToBlockManagerMaster
 
-  // added by frankfzw. Fetch the remote blockMangerSlaveEndPoint
+  // added by pipeshuffle. Fetch the remote blockMangerSlaveEndPoint
   case class AskForRemoteBlockManager(executorId: String) extends ToBlockManagerMaster
 
   case class AskForRemoteBlockMangerId(executorId: String) extends ToBlockManagerMaster

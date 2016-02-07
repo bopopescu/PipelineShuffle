@@ -53,13 +53,13 @@ private[spark] class ShuffleMapTask(
   with Logging {
 
   /**
-   * added by frankfzw
+   * added by pipeshuffle
    * It's more straightforward way to get the corresponding shuffleId without deserialize the task binary
    */
   private var shuffleId: Int = -1
 
   /**
-   * added by frankfzw
+   * added by pipeshuffle
    * It's the flag of whether it should pipe Shuffle
    */
   private var pipeFlag: Boolean = false
@@ -85,7 +85,7 @@ private[spark] class ShuffleMapTask(
     targetBlockManger = new HashMap[Int, RpcEndpointRef]()
     targetBlockManger = pIdToBlockManager
     executorId = eId
-    // targetBlockManger.foreach(kv => logInfo(s"frankfzw: Target BlockManger ${kv._1} : ${kv._2.slaveEndpoint.address}"))
+    // targetBlockManger.foreach(kv => logInfo(s"pipeshuffle: Target BlockManger ${kv._1} : ${kv._2.slaveEndpoint.address}"))
   }
 
   /** A constructor used only in test suites. This does not require passing in an RDD. */
@@ -110,10 +110,10 @@ private[spark] class ShuffleMapTask(
     try {
       val manager = SparkEnv.get.shuffleManager
       writer = manager.getWriter[Any, Any](dep.shuffleHandle, partitionId, context)
-      // logInfo(s"frankfzw: wirter class is ${writer.getClass.getName}")
+      // logInfo(s"pipeshuffle: wirter class is ${writer.getClass.getName}")
       // writer.write(rdd.iterator(partition, context).asInstanceOf[Iterator[_ <: Product2[Any, Any]]])
       // if (pipeFlag) {
-      //   // targetBlockManger.foreach(kv => logInfo(s"frankfzw: Target BlockManger ${kv._1} : ${kv._2.slaveEndpoint.address}"))
+      //   // targetBlockManger.foreach(kv => logInfo(s"pipeshuffle: Target BlockManger ${kv._1} : ${kv._2.slaveEndpoint.address}"))
       //   for (kv <- targetBlockManger) {
       //     BlockManager.pipeStart(kv._2, shuffleId, partitionId, executorId, kv._1)
       //   }

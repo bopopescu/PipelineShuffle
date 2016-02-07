@@ -80,7 +80,7 @@ private[spark] class TaskSetManager(
 
   val tasks = taskSet.tasks
   val numTasks = tasks.length
-  // added by frankfzw
+  // added by pipeshuffle
   val executorDesignated = taskSet.executorDesignated
   val copiesRunning = new Array[Int](numTasks)
   val successful = new Array[Boolean](numTasks)
@@ -298,7 +298,7 @@ private[spark] class TaskSetManager(
    * the given locality constraint.
    */
   // Labeled as protected to allow tests to override providing speculative tasks if necessary
-  // modified by frankfzw,
+  // modified by pipeshuffle,
   // make sure there is no sepeculativetask return if the Designated is true
   protected def dequeueSpeculativeTask(execId: String, host: String, locality: TaskLocality.Value)
     : Option[(Int, TaskLocality.Value)] =
@@ -889,7 +889,7 @@ private[spark] class TaskSetManager(
    * added to queues using addPendingTask.
    *
    */
-  // modified by frankfzw
+  // modified by pipeshuffle
   // make sure the task runs exactly on the designate executor if it's a pipeShuffle version
   private def computeValidLocalityLevels(): Array[TaskLocality.TaskLocality] = {
     import TaskLocality.{PROCESS_LOCAL, NODE_LOCAL, NO_PREF, RACK_LOCAL, ANY}

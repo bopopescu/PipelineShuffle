@@ -196,8 +196,8 @@ private[spark] class Executor(
         task = ser.deserialize[Task[Any]](taskBytes, Thread.currentThread.getContextClassLoader)
         task.setTaskMemoryManager(taskMemoryManager)
 
-        // TODO frankfzw find out what kind of task it is and the shuffleId if necessary
-        // logInfo("frankfzw: task type " + task.getClass.getName + " target: " + ShuffleMapTask.getName() + " compare result: " + (task.getClass.getName == ShuffleMapTask.getName()))
+        // TODO pipeshuffle find out what kind of task it is and the shuffleId if necessary
+        // logInfo("pipeshuffle: task type " + task.getClass.getName + " target: " + ShuffleMapTask.getName() + " compare result: " + (task.getClass.getName == ShuffleMapTask.getName()))
 
         // If this task has been killed before we deserialized it, let's quit now. Otherwise,
         // continue executing the task.
@@ -240,13 +240,13 @@ private[spark] class Executor(
           throw new TaskKilledException
         }
 
-        // added by frankfzw
+        // added by pipeshuffle
         // pipe shuffle ended here
-        logInfo(s"frankfzw: task ${taskId}, ${task.getClass}, ${task.getClass.getName}. target: ${ShuffleMapTask.getClass.getName}. answer ${task.getClass.getName == ShuffleMapTask.getClass.getName}")
+        logInfo(s"pipeshuffle: task ${taskId}, ${task.getClass}, ${task.getClass.getName}. target: ${ShuffleMapTask.getClass.getName}. answer ${task.getClass.getName == ShuffleMapTask.getClass.getName}")
         if (task.getClass.getName == ShuffleMapTask.getName) {
           val shuffleId = task.asInstanceOf[ShuffleMapTask].getShuffleId()
           if (shuffleId != -1) {
-            logInfo(s"frankfzw: task: ${task}; shuffleId: ${shuffleId}")
+            logInfo(s"pipeshuffle: task: ${task}; shuffleId: ${shuffleId}")
             env.blockManager.remotePipeEnd(shuffleId, task.partitionId, value.asInstanceOf[MapStatus])
           }
         }

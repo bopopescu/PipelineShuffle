@@ -22,7 +22,7 @@ import java.io.{ObjectInput, ObjectOutput, Externalizable}
 import org.apache.spark.util.Utils
 import org.apache.spark.storage.BlockManagerId
 /**
- * Created by frankfzw on 15-11-9.
+ * Created by pipeshuffle on 15-11-9.
  */
 private[spark] class ReduceStatus(var partition: Int, var executorId: String) extends Externalizable{
 

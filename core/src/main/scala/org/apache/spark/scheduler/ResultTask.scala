@@ -65,7 +65,7 @@ override def runTask(context: TaskContext): U = {
     // val it = rdd.iterator(partition, context)
     // while (it.hasNext) {
     //   val kv = it.next()
-    //   println(s"frankfzw: The kv is ${kv}")
+    //   println(s"pipeshuffle: The kv is ${kv}")
     // }
     func(context, rdd.iterator(partition, context))
   }

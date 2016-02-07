@@ -129,7 +129,7 @@ class BlockManagerMasterEndpoint(
         case None => context.reply(false)
       }
 
-      //added by frankfzw to fetch the remote blockManager
+      //added by pipeshuffle to fetch the remote blockManager
     case AskForRemoteBlockManager(executorId) =>
       context.reply(getRemoteBlockManager(executorId))
 
@@ -140,7 +140,7 @@ class BlockManagerMasterEndpoint(
 
   /**
    * return the all active BlockManagerId
-   * added by frankfzw
+   * added by pipeshuffle
    * @return
    */
   private def getBolckManagerList(): Seq[BlockManagerId] = {
@@ -148,7 +148,7 @@ class BlockManagerMasterEndpoint(
   }
 
   /**
-   * added by frankfzw
+   * added by pipeshuffle
    * Called by Executor to fetch the remote BlockManager
    * @param executorId
    * @return the slave RpcEndpointRef of the corresponding BlockManager for the given executor
@@ -157,7 +157,7 @@ class BlockManagerMasterEndpoint(
     if (blockManagerIdByExecutor.contains(executorId)) {
       val blockManagerId = blockManagerIdByExecutor(executorId)
       if (blockManagerInfo.contains(blockManagerId)) {
-        // logInfo(s"frankfzw: getRemoteBlockManager: executorId: ${executorId}, blockManagerId: ${blockManagerId}")
+        // logInfo(s"pipeshuffle: getRemoteBlockManager: executorId: ${executorId}, blockManagerId: ${blockManagerId}")
         Some(blockManagerInfo(blockManagerId).slaveEndpoint)
       } else {
         logError(s"Missing blockManagerId ${blockManagerId} in blockManagerInfo")
@@ -173,7 +173,7 @@ class BlockManagerMasterEndpoint(
     if (blockManagerIdByExecutor.contains(executorId))
       blockManagerIdByExecutor(executorId)
     else
-      throw new IllegalArgumentException(s"frankfzw: Missing executorId ${executorId}")
+      throw new IllegalArgumentException(s"pipeshuffle: Missing executorId ${executorId}")
   }
 
   private def removeRdd(rddId: Int): Future[Seq[Int]] = {

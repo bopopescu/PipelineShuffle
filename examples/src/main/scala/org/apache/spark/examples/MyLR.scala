@@ -9,7 +9,7 @@ import org.apache.spark.examples.SparkLR.DataPoint
 import scala.math._
 
 /**
- * Created by frankfzw on 16-1-12.
+ * Created by pipeshuffle on 16-1-12.
  */
 object MyLR {
   var N = 100000  // Number of data points

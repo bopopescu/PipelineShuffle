@@ -109,7 +109,7 @@ private[spark] class SortShuffleWriter[K, V, C](
       new ExternalSorter[K, V, V](
         aggregator = None, Some(dep.partitioner), ordering = None, dep.serializer)
     }
-    // added by frankfzw
+    // added by pipeshuffle
     // send the reduceIdToBlockManger to sorter
     // convert to a java HashMap<Integer, BlockInfo> at first
     val javaHashMap = new java.util.HashMap[Integer, RpcEndpointRef]()

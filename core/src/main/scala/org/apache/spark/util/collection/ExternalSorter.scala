@@ -119,7 +119,7 @@ private[spark] class ExternalSorter[K, V, C](
   private val ser = Serializer.getSerializer(serializer)
   private val serInstance = ser.newInstance()
 
-  // added by frankfzw
+  // added by pipeshuffle
   private var reduceIdToBlockManager: java.util.HashMap[Integer, RpcEndpointRef] = null
 
   // Use getSizeAsKb (not bytes) to maintain backwards compatibility if no units are provided
@@ -212,7 +212,7 @@ private[spark] class ExternalSorter[K, V, C](
         if (hadValue) mergeValue(oldValue, kv._2) else createCombiner(kv._2)
       }
       if (reduceIdToBlockManager != null && shuffleId != -1) {
-        // added by frankfzw, we don't perform merge here
+        // added by pipeshuffle, we don't perform merge here
         // just send the record one by one
         while (records.hasNext) {
           addElementsRead()
@@ -221,18 +221,18 @@ private[spark] class ExternalSorter[K, V, C](
           if (reduceIdToBlockManager.containsKey(pid))
             BlockManager.writeRemote(reduceIdToBlockManager.get(pid), shuffleId, pid, kv._1, kv._2)
           else
-            logInfo(s"frankfzw: No such reducer id ${pid}")
+            logInfo(s"pipeshuffle: No such reducer id ${pid}")
           map.changeValue((getPartition(kv._1), kv._1), update)
           maybeSpillCollection(usingMap = true)
         }
       } else {
-        logError("frankfzw: Unable to insert remote")
+        logError("pipeshuffle: Unable to insert remote")
       }
 
     } else {
       // Stick values into our buffer
       if (reduceIdToBlockManager != null && shuffleId != -1) {
-        // added by frankfzw, we don't perform merge here
+        // added by pipeshuffle, we don't perform merge here
         // just send the record one by one
         while (records.hasNext) {
           addElementsRead()
@@ -243,7 +243,7 @@ private[spark] class ExternalSorter[K, V, C](
           maybeSpillCollection(usingMap = false)
         }
       } else {
-        logError("frankfzw: Unable to insert remote")
+        logError("pipeshuffle: Unable to insert remote")
       }
     }
   }
