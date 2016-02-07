@@ -309,13 +309,15 @@ private[spark] class BlockManager(
         val sizeArray = new Array[Long](reduceStatuses.length)
         val executors = new mutable.HashSet[String]
         for (rs <- reduceStatuses) {
-          executors += rs.executorId
           sizeArray(rs.partition) = mapStatus.getSizeForBlock(rs.partition)
-        }
-        for (e <- executors) {
+
+          val e = rs.executorId
           if (e == blockManagerId.executorId) {
             pipeEnd(shuffleId, mapPartition, blockManagerId, sizeArray)
           } else {
+            logInfo("pipeshuffle: Map-end signal: " +
+              s" ${shuffleId}:${mapPartition}:${rs.partition}:${blockManagerId.executorId}:${e} " +
+              s" Time ${java.lang.System.currentTimeMillis()}")
             val rpcRef = getRemoteBlockManager(e)
             val ret = rpcRef.askWithRetry[Boolean](PipeEnd(shuffleId, mapPartition, blockManagerId, sizeArray))
             if (!ret)
@@ -339,7 +341,10 @@ private[spark] class BlockManager(
     val blockArray = new Array[(BlockId, Long)](1)
     blockArray(0) = (ShuffleBlockId(shuffleId, mapId, reduceId), size)
     if (location.executorId != blockManagerId.executorId) {
-      logInfo(s"pipeshuffle: Send pending request for shuffle: ${shuffleId}:${mapId}:${reduceId} at ${location}. Size ${size} Time ${java.lang.System.currentTimeMillis()}")
+      logInfo(
+        s"pipeshuffle: Send pending request for shuffle: " +
+        s"${shuffleId}:${mapId}:${reduceId}:${location.executorId}:${blockManagerId.executorId} at ${location}. Size ${size} " +
+        s"Time ${java.lang.System.currentTimeMillis()}")
       val sizeMap = blockArray.map { case (block, size) => (block.toString, size) }.toMap
       val blockIds = blockArray.map(_._1.toString)
       if (size == BLOCK_EMPTY) {
@@ -352,7 +357,10 @@ private[spark] class BlockManager(
               buf.retain()
               shuffleFetchResultQueue(shuffleId)(reduceId).put(new SuccessFetchResult(BlockId(blockId), location, sizeMap(blockId), buf))
               //putCacheBlock(shuffleId, mapId, reduceId, buf, size, false)
-              logInfo("pipeshuffle: Got remote block " + blockId + s" Time ${java.lang.System.currentTimeMillis()}")
+              logInfo(
+                "pipeshuffle: Got remote block " +
+                s"${shuffleId}:${mapId}:${reduceId}:${location.executorId}:${blockManagerId.executorId}" +
+                s" Time ${java.lang.System.currentTimeMillis()}")
             }
 
             override def onBlockFetchFailure(blockId: String, e: Throwable): Unit = {
