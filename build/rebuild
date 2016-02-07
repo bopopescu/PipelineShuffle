@@ -8,8 +8,9 @@ fi
 sbin/stop-all.sh
 build/mvn -Dhadoop.version=1.0.4 -Phadoop-1 -DskipTests clean package
 
-cp ../spark-original/conf/* conf
-sed -i -e '1ispark.scheduler.pipe true\' conf/spark-defaults.conf
+cp -n ../spark-original/conf/* conf
+grep scheduler conf/spark-defaults.conf || \
+    sed -i -e '1ispark.scheduler.pipe true\' conf/spark-defaults.conf
 
 rm logs/*
 

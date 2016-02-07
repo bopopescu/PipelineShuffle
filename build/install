@@ -1,0 +1,7 @@
+#!/bin/bash
+
+mv spark spark-original
+git clone https://github.com/GuanhuaWang/PipelineShuffle
+mv PipelineShuffle spark
+cd spark
+build/rebuild
