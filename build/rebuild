@@ -14,5 +14,5 @@ grep scheduler conf/spark-defaults.conf || \
 rm logs/*
 
 sbin/stop-all.sh
-/root/spark-ec2/copy-dir --delete /root/spark
+/root/spark-ec2/copy-dir  ~/root/spark
 sbin/start-all.sh
