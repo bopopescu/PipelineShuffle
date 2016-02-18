@@ -191,7 +191,7 @@ class DAGScheduler(
   // SparkDeploySchedulerBackend when an executor is added or removed
   var executorIdToHost = new HashMap[String, String]
 
-  // added by pipeshuffle
+  // added by pipeshuffle (Guanhua)
   private val pipeFlag = sc.getConf.getBoolean("spark.scheduler.pipe", false)
   private val preSchedule = sc.getConf.getBoolean("spark.scheduler.preSchedule", false)
 
