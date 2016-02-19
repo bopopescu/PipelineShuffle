@@ -15,5 +15,7 @@ grep scheduler conf/spark-defaults.conf || \
 rm logs/*
 
 sbin/stop-all.sh
+# rsync everytime you change spark.scheduler.pipe true/false
+# there is no need for conf on spark.slaves.number which should be used for counting slave number.
 /root/spark-ec2/copy-dir  ~/root/spark
 sbin/start-all.sh
