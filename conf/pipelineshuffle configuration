@@ -1,0 +1,3 @@
+spark.scheduler.pipe false
+spark.scheduler.preSchedule false
+spark.slaves.number 20
