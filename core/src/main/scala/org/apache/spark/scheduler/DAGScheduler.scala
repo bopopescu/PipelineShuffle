@@ -313,7 +313,7 @@ class DAGScheduler(
   }
 
   /**
-   * added by pipeshuffle, register the reduce location when generating the stages
+   * added by Guanhua, register the reduce location when generating the stages
    * @param rdd
    * @param firstJobId
    * @param partitions: the partitions that the result stage need to compute
