@@ -1,9 +1,8 @@
 spark.scheduler.pipe false
 spark.scheduler.preSchedule false
 spark.slaves.number 20
-
-
 # for running WaterFall analysis
+spark.eventLog.enabled true
 https://github.com/kayousterhout/trace-analysis
 python parse_logs.py EVENT_LOG_1 --waterfall-only
 gnuplot EVENT_LOG_1_0_waterfall.gp
