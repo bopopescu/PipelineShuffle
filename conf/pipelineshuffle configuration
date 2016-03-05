@@ -3,6 +3,7 @@ spark.scheduler.preSchedule false
 spark.slaves.number 20
 
 # for running WaterFall analysis
+mkdir /tmp/spark-events/
 spark.eventLog.enabled true
 https://github.com/kayousterhout/trace-analysis
 python parse_logs.py EVENT_LOG_1 --waterfall-only
