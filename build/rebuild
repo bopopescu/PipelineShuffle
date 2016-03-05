@@ -5,7 +5,7 @@ if [[ ! -d sbin ]]; then
     exit 1
 fi
 
-#build/mvn -Dhadoop.version=1.0.4 -Phadoop-1 -DskipTests clean package
+build/mvn -Dhadoop.version=1.0.4 -Phadoop-1 -DskipTests clean package # default buildup mvn version
 build/mvn -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 -DskipTests clean package
 
 cp -n ../spark-original/conf/* conf
