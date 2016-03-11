@@ -8,3 +8,5 @@ spark.eventLog.enabled true
 https://github.com/kayousterhout/trace-analysis
 python parse_logs.py EVENT_LOG_1 --waterfall-only
 gnuplot EVENT_LOG_1_0_waterfall.gp
+
+we start run spark with TPCDS benchmark and spark-perf benchmark
