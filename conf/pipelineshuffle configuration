@@ -9,4 +9,30 @@ https://github.com/kayousterhout/trace-analysis
 python parse_logs.py EVENT_LOG_1 --waterfall-only
 gnuplot EVENT_LOG_1_0_waterfall.gp
 
-we start run spark with TPCDS benchmark and spark-perf benchmark.
+TPC-DS
+#we start run spark with TPCDS benchmark and spark-perf benchmark.
+tpcds-kit -- for data generation
+(https://github.com/davies/tpcds-kit)
+make
+sudo yum install flex
+sudo yum install bison
+yacc -d qgen.y 
+mv qgen.tab.c y.tab.c
+mv qgen.tab.h y.tab.h
+make
+
+Spark-sql-perf 
+(https://github.com/frankfzw/spark-sql-perf)
+cd spark-seql-perf
+./build/sbt assembly
+cd target/scala-1.0/xxxx.jar
+
+run tpcds on Spark
+cd ~/spark
+./bin/spark-submit --class com.databricks.spark.sql.perf.RunBenchmark --master \
+spark://ec2-54-193-125-205.us-west-1.compute.amazonaws.com:7077 \
+~/spark-sql-perf/target/scala-2.10/spark-sql-perf-assembly-0.4.0-SNAPSHOT.jar \
+-b perf.TPCDS -p ~/tpcds-kit/tools -s 1
+
+
+
