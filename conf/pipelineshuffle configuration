@@ -32,5 +32,5 @@ cd ~/spark
 ./bin/spark-submit --class com.databricks.spark.sql.perf.RunBenchmark --master \
 spark://ec2-54-193-125-205.us-west-1.compute.amazonaws.com:7077 \
 ~/spark-sql-perf/target/scala-2.10/spark-sql-perf-assembly-0.4.0-SNAPSHOT.jar \
--b perf.TPCDS -p ~/tpcds-kit/tools/dsdgen -s 1
+-b perf.TPCDS -p ~/tpcds-kit/tools -s 1
 
