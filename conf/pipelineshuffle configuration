@@ -26,7 +26,7 @@ Spark-sql-perf
 cd spark-seql-perf
 ./build/sbt assembly
 cd target/scala-1.0/xxxx.jar
-
+//cannot find the file
 run tpcds on Spark
 cd ~/spark
 ./bin/spark-submit --class com.databricks.spark.sql.perf.RunBenchmark --master \
