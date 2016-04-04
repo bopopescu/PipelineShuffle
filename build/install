@@ -5,7 +5,7 @@ rm -r spark-original
 mv spark spark-original
 git clone https://github.com/frankfzw/pipeSpark
 or
-git clone https://https://github.com/GuanhuaWang/PipelineShuffle
+git clone https://github.com/GuanhuaWang/PipelineShuffle
 mv PipelineShuffle spark
 cd spark
 build/rebuild
