@@ -34,3 +34,8 @@ spark://ec2-54-193-125-205.us-west-1.compute.amazonaws.com:7077 \
 ~/spark-sql-perf/target/scala-2.10/spark-sql-perf-assembly-0.4.0-SNAPSHOT.jar \
 -b perf.TPCDS -p ~/tpcds-kit/tools -s 1
 
+SPARK SPECULATION
+spark.speculation true
+spark.speculation.interval 100ms
+spark.speculation.multiplier 1.5
+spark.speculation.quantile 0.75
