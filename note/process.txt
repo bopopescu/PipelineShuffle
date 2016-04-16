@@ -95,7 +95,7 @@ backend.reviveOffers():
 CoarseGrainedScheduerBackend
 reviverOffers: call makeOffers
 makeOffers:
-    call TaskScheduerImpl.resourceOffers with the set of workOffers
+    call TaskScheduerImpl.resourceOffers with the set of workerOffers  i.e. shuffledOffers: Seq[WorkerOffer]
 
     TaskSchedluerImpl
     fill the set of workOffers with TaskDescription
