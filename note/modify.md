@@ -5,7 +5,7 @@ add `val PENDING = false`. The default status of a stage is false. When it's sub
 
 ## DAGScheduler
 ### submitStage: Important
-Submit the satge from the **Final stage to their parents**, i.e. we find the final stage, mark it `PENDING` if it has missing parents, and submit it, and then find it's parents and submit them recursively.
+Submit the stage from the **Final stage to their parents**, i.e. we find the final stage, mark it `PENDING` if it has missing parents, and submit it, and then find it's parents and submit them recursively.
 
 ### submitMissingTasks: 
 If the stage is `PENDING`, we use `getRandomLocs` to assign the tasks to the random locations.
