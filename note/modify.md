@@ -76,7 +76,7 @@ Register the reduce by adding an entry in `reduceStatuses`
 #### GetReduceStatus(shuffleId: Int) (new added)
 This is a RPC message for endhost to get the `reduceStatuses`. When the `MapOutputTrackerEndpoint` receives this message, it will call `MapOutputTrackerMaster.getSerializedReduceStatuses(shufflId)`
 #### MapOutputTrackerMaster.getSerializedReduceStatuses(shufflId) (new added)
-It first check the cachedReduceStatuses. If the check fails, it than check `reduceStatuses` and serialize the statuses
+It first check the cachedReduceStatuses. If the check fails, it then check `reduceStatuses` and serialize the statuses
 #### serializeReduceStatuses
 Serialze the array of `ReduceStatus` to the array of `Byte`
 #### deserializeReduceStatuses
