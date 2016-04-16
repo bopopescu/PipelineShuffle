@@ -1148,6 +1148,7 @@ class DAGScheduler(
         val visited = new HashSet[RDD[_]]
         val waitingForVisit = new Stack[RDD[_]]
         var reduceStatus: Array[ReduceStatus] = null
+        
         if (pipeFlag) {
           def visit(r: RDD[_]) {
             if (!visited(r)) {
@@ -1169,6 +1170,7 @@ class DAGScheduler(
             visit(waitingForVisit.pop())
           }
         }
+        
         if (reduceStatus == null) {
           logInfo(s"pipeshuffle: Stage ${stage.id} doesn't have  pending shuffle")
           partitionsToCompute.map { id =>
@@ -1189,6 +1191,7 @@ class DAGScheduler(
             (id, taskLocation)
           }.toMap
         }
+        
       } catch {
         case NonFatal(e) =>
           logError("pipeshuffle: submitMissingTasks task creation failed on stage " + stage)
