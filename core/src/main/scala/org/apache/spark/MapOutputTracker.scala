@@ -572,7 +572,7 @@ private[spark] class MapOutputTrackerMaster(conf: SparkConf)
     }
     bytes
   }
-
+//pipeshuffle serialize reduce statuses
   def getSerializedReduceStatuses(shuffleId: Int): Array[Byte] = {
     var statuses: Array[ReduceStatus] = null
     cachedReduceStatuses.get(shuffleId) match {
