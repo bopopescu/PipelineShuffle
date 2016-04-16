@@ -46,7 +46,7 @@ Return `true` if it didn't get the `blocksByAddress` from `MapOutputTracker`.
 
 ## MapOutputTracker
 ### getMapSizesByExecutorId: 
-It's called by `BlockStoreShuffleReader`. It than calls `convertMapStatuses` to get the `BlockManagerId` and the corresponding `BlockId` 
+It's called by `BlockStoreShuffleReader`. It then calls `convertMapStatuses` to get the `BlockManagerId` and the corresponding `BlockId` 
 ### covertMapStatuses: 
 If we get a `null` status which means the map is unfinished, we return a empty Seq
 
