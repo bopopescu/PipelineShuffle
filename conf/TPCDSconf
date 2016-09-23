@@ -3,3 +3,9 @@ git clone https://github.com/davies/tpcds-kit.git
 cd tpcds-kit/tools
 cp Makefile.suite Makefile
 make
+sudo yum install flex
+sudo yum install bison
+yacc -d qgen.y 
+mv qgen.tab.c y.tab.c
+mv qgen.tab.h y.tab.h
+make
