@@ -4,6 +4,10 @@ spark.scheduler.pipe false
 spark.scheduler.preSchedule false
 spark.slaves.number 20
 
+#########Write file to ephemeral HDFS#########
+cd ephemeral-hdfs
+./bin/hadoop fs -put ~/spark/data/mllib/sample_libsvm_data.txt /user/root/data/mllib/sample_libsvm_data.txt
+
 
 # for running WaterFall analysis
 mkdir /tmp/spark-events/
