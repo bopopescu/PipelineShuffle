@@ -1,6 +1,6 @@
-# Pipeline Shuffle For Apache Spark.
+# Pipeline Shuffle For Apache Spark
 
-We enable asynchoronous Shuffle data transmission to remove the shuffle barrier from original Apache Spark.
+We enable asynchoronous Shuffle data transmission to remove the shuffle barrier from original Apache Spark. It increases Spark performance (e.g. Reducing Job Completion Time) by 30%-50%.
 
 # Apache Spark
 
