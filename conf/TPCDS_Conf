@@ -1,4 +1,6 @@
 #TPCDS-toolkit#
+#git from the TPCDS repo.
+
 git clone https://github.com/davies/tpcds-kit.git
 cd tpcds-kit/tools
 cp Makefile.suite Makefile
