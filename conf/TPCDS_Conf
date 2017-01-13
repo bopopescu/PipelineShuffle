@@ -17,7 +17,7 @@ git clone https://github.com/databricks/spark-sql-perf.git
 cd spark-sql-perf
 ./build/sbt assembly
 
-#Run TPCDS on Spark#
+#Run TPCDS on Spark (1.5.1)#
 cd spark
 ./bin/spark-shell --jars ~/spark-sql-perf/target/scala-2.10/spark-sql-perf-assembly-0.4.10-SNAPSHOT.jar \
 --num-executors 5 --executor-cores 4 --executor-memory 13G --master yarn-client
