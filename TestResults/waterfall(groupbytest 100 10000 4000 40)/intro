@@ -1,5 +1,7 @@
 This is a waterfall analysis for pipeline shuffle
+
 the first part contains default spark, pipeline shuffle without prescheduling, pipeline shuffle with prescheduling
 
 We now test pipeline shuffle with sql perf.
+
 The performance is not very well. We will try to figure out why this happened
