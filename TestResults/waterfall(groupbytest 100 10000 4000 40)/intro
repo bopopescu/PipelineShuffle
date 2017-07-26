@@ -6,5 +6,6 @@ We now test pipeline shuffle with sql perf.
 
 The performance is not very well. We will try to figure out why this happened.
 
+
 We can design a hash table on the reducer side.
 
