@@ -1,4 +1,5 @@
 16/04/19 09:38:03 INFO spark.SparkContext: Running Spark version 1.6.0-SNAPSHOT with piping shuffle. Created by pipeshuffle
+
 16/04/19 09:38:04 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 16/04/19 09:38:04 WARN spark.SparkConf: 
 SPARK_WORKER_INSTANCES was detected (set to '1').
